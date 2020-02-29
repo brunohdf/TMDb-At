@@ -3,31 +3,40 @@ package com.arctouch.codechallenge.home
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.arctouch.codechallenge.R
-import com.arctouch.codechallenge.api.TmdbApi
-import com.arctouch.codechallenge.data.Cache
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import com.arctouch.codechallenge.extension.visible
+import com.arctouch.codechallenge.model.Movie
 import kotlinx.android.synthetic.main.home_activity.*
 import org.koin.android.ext.android.inject
 
 class HomeActivity : AppCompatActivity() {
 
-    private val api: TmdbApi by inject()
+    private val viewModel: HomeViewModel by inject()
+
+    private val moviesList = mutableListOf<Movie>()
+    private val adapter = HomeAdapter(moviesList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_activity)
 
-        api.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, 1, TmdbApi.DEFAULT_REGION)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                val moviesWithGenres = it.results.map { movie ->
-                    movie.copy(genres = Cache.genres.filter { movie.genreIds?.contains(it.id) == true })
-                }
-                recyclerView.adapter = HomeAdapter(moviesWithGenres)
-                progressBar.visibility = View.GONE
-            }
+        recyclerView.adapter = adapter
+
+        bindEvents()
+        viewModel.fetchUpcomingMovies()
+    }
+
+    private fun bindEvents() {
+        viewModel.upcomingMovies().observe(this, Observer { movies ->
+            moviesList.addAll(movies)
+            adapter.notifyDataSetChanged()
+
+            progressBar.visibility = View.GONE
+        })
+
+        viewModel.showLoading().observe(this, Observer { showLoading ->
+            progressBar.visible(showLoading)
+        })
     }
 }
