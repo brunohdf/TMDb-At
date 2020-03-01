@@ -15,15 +15,21 @@ class DetailViewModel(private val repository: TMDbRepository) : ViewModel() {
     private val details = MutableLiveData<Movie>()
     private val showLoading = MutableLiveData<Boolean>()
 
+    lateinit var movie: Movie
+
     fun details(): LiveData<Movie> = details
     fun showLoading(): LiveData<Boolean> = showLoading
 
     fun fetchDetails(movieId: Long) {
-        val disposable = repository.getDetails(movieId)
+        if (::movie.isInitialized) {
+            // it works because ViewMode is lifecycle-aware, so it too easy to keep our data! :)
+            details.value = movie
+        } else {
+            val disposable = repository.getDetails(movieId)
                 .subscribeWith(object : ResourceObserver<Movie>() {
-
                     override fun onNext(it: Movie) {
-                        details.value = it
+                        movie = it
+                        details.value = movie
                     }
 
                     override fun onComplete() {
@@ -36,7 +42,8 @@ class DetailViewModel(private val repository: TMDbRepository) : ViewModel() {
                 }
                 )
 
-        disposable.add(disposable)
+            disposable.add(disposable)
+        }
 
     }
 

@@ -17,31 +17,39 @@ class HomeViewModel(private val repository: TMDbRepository) : ViewModel() {
     private val upcomingMovies = MutableLiveData<List<Movie>>()
     private val showLoading = MutableLiveData<Boolean>()
 
+    private lateinit var movies: List<Movie>
+
     fun upcomingMovies(): LiveData<List<Movie>> = upcomingMovies
     fun showLoading(): LiveData<Boolean> = showLoading
 
     fun fetchUpcomingMovies(page: Long = 1) {
         showLoading.value = true
 
-        val disposable = repository.getUpcomingMovies(page)
-                .subscribeWith(
-                        object : ResourceObserver<List<Movie>>() {
+        if (::movies.isInitialized) {
+            // it works  because ViewMode is lifecycle-aware, so it too easy to keep our data! :)
+            upcomingMovies.value = movies
+        } else {
+            val disposable = repository.getUpcomingMovies(page)
+                    .subscribeWith(
+                            object : ResourceObserver<List<Movie>>() {
 
-                            override fun onNext(it: List<Movie>) {
-                                upcomingMovies.value = it
+                                override fun onNext(it: List<Movie>) {
+                                    movies = it
+                                    upcomingMovies.value = movies
+                                }
+
+                                override fun onComplete() {
+                                    showLoading.value = false
+                                }
+
+                                override fun onError(e: Throwable) {
+                                    showLoading.value = false
+                                }
                             }
+                    )
 
-                            override fun onComplete() {
-                                showLoading.value = false
-                            }
-
-                            override fun onError(e: Throwable) {
-                                showLoading.value = false
-                            }
-                        }
-                )
-
-        disposable.add(disposable)
+            disposable.add(disposable)
+        }
     }
 
     override fun onCleared() {
