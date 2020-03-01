@@ -59,6 +59,11 @@ class DetailFragment : Fragment() {
         viewModel.showLoading().observe(viewLifecycleOwner, Observer {
             progressBar.visible(it)
         })
+
+        viewModel.displayError().observe(viewLifecycleOwner, Observer { resId ->
+            MessageUtil.displayError(requireContext(), resId)
+            activity?.finish()
+        })
     }
 
     private fun bindDetail(data: Movie) {

@@ -10,6 +10,7 @@ import com.arctouch.codechallenge.detail.DetailActivity
 import com.arctouch.codechallenge.extension.visible
 import com.arctouch.codechallenge.model.Movie
 import com.arctouch.codechallenge.util.EndlessScrollListener
+import com.arctouch.codechallenge.util.MessageUtil
 import kotlinx.android.synthetic.main.home_activity.*
 import org.koin.android.ext.android.inject
 
@@ -39,6 +40,10 @@ class HomeActivity : AppCompatActivity() {
 
         viewModel.showLoading().observe(this, Observer { showLoading ->
             progressBar.visible(showLoading)
+        })
+
+        viewModel.displayError().observe(this, Observer { resId ->
+            MessageUtil.displayError(this, resId)
         })
     }
 
