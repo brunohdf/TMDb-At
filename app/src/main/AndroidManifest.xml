@@ -16,16 +16,12 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity
-            android:name=".splash.SplashActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity android:name=".home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".home.HomeActivity" />
 
     </application>
 

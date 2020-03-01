@@ -3,8 +3,13 @@ package com.arctouch.codechallenge.com.arctouch.codechallenge.repository.factory
 import com.arctouch.codechallenge.com.arctouch.codechallenge.repository.factory.PrimitiveFactory.randomInt
 import com.arctouch.codechallenge.com.arctouch.codechallenge.repository.factory.PrimitiveFactory.randomString
 import com.arctouch.codechallenge.model.Genre
+import com.arctouch.codechallenge.model.GenreResponse
 import com.arctouch.codechallenge.model.Movie
 import com.arctouch.codechallenge.model.UpcomingMoviesResponse
+
+// @Revisor: is important that the genre be know to compose genreIds and its equivalence at upcoming movies
+// for test purposes, our list will have just one genre
+private val genre = Genre(randomInt(), randomString())
 
 object TMDbFactory {
     fun makeUpcomingMoviesResponse(totalPages: Int = 1, totalResults: Int = 10) = UpcomingMoviesResponse(
@@ -23,9 +28,9 @@ object TMDbFactory {
 
     }
 
-    private fun makeMovie(numberGenres: Int = 1): Movie {
+    private fun makeMovie(): Movie {
 
-        val genres = makeGenreList(numberGenres)
+        val genres = makeGenreList()
         val genresIds = genres.map { it.id }
 
         return Movie(
@@ -40,11 +45,9 @@ object TMDbFactory {
         )
     }
 
-    private fun makeGenreList(number: Int = 1): List<Genre> {
-        return mutableListOf<Genre>().apply {
-            for (i in 1..number) {
-                add(Genre(randomInt(), randomString()))
-            }
-        }
+    fun makeGenreList(): List<Genre> {
+        return listOf(genre)
     }
+
+    fun makeGenreResponse() = GenreResponse(makeGenreList())
 }

@@ -2,6 +2,7 @@ package com.arctouch.codechallenge
 
 import android.app.Application
 import com.arctouch.codechallenge.api.TmdbApi
+import com.arctouch.codechallenge.data.Cache
 import com.arctouch.codechallenge.home.HomeViewModel
 import com.arctouch.codechallenge.repository.TMDbRepository
 import okhttp3.OkHttpClient
@@ -42,14 +43,10 @@ class MainApplication : Application() {
                     .create(TmdbApi::class.java)
         }
 
-        single {
-            HomeViewModel(get())
-        }
+        single { HomeViewModel(get()) }
+        single { TMDbRepository(get(), get()) }
 
-        single {
-            TMDbRepository(get())
-        }
-
+        single { Cache() }
     }
 
 }

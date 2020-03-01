@@ -3,7 +3,6 @@ package com.arctouch.codechallenge.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.arctouch.codechallenge.data.Cache
 import com.arctouch.codechallenge.model.Movie
 import com.arctouch.codechallenge.repository.TMDbRepository
 import io.reactivex.disposables.CompositeDisposable
@@ -29,11 +28,7 @@ class HomeViewModel(private val repository: TMDbRepository) : ViewModel() {
                         object : ResourceObserver<List<Movie>>() {
 
                             override fun onNext(it: List<Movie>) {
-                                val moviesWithGenres = it.map { movie ->
-                                    movie.copy(genres = Cache.genres.filter { movie.genreIds?.contains(it.id) == true })
-                                }
-
-                                upcomingMovies.value = moviesWithGenres
+                                upcomingMovies.value = it
                             }
 
                             override fun onComplete() {
