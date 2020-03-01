@@ -12,8 +12,6 @@ class TMDbRepository(private val api: TmdbApi) {
         return api.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, page, TmdbApi.DEFAULT_REGION)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map {
-                    it.results.map { movie -> movie }
-                }
+                .map { it.results }
     }
 }

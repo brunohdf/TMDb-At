@@ -1,12 +1,13 @@
 package com.arctouch.codechallenge.home
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.arctouch.codechallenge.R
 import com.arctouch.codechallenge.extension.visible
 import com.arctouch.codechallenge.model.Movie
+import com.arctouch.codechallenge.util.EndlessScrollListener
 import kotlinx.android.synthetic.main.home_activity.*
 import org.koin.android.ext.android.inject
 
@@ -21,18 +22,30 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_activity)
 
-        recyclerView.adapter = adapter
+        setupRecyclerView()
 
         bindEvents()
         viewModel.fetchUpcomingMovies()
     }
 
+    private fun setupRecyclerView() {
+        val layoutManager = LinearLayoutManager(this)
+        recyclerView.let {
+            it.adapter = adapter
+            it.layoutManager = layoutManager
+            it.addOnScrollListener(object : EndlessScrollListener(layoutManager) {
+                override fun onLoadMore(currentPage: Int) {
+                    viewModel.fetchUpcomingMovies(currentPage)
+                }
+            })
+        }
+    }
+
     private fun bindEvents() {
         viewModel.upcomingMovies().observe(this, Observer { movies ->
+            val startPosition = moviesList.size + 1
             moviesList.addAll(movies)
-            adapter.notifyDataSetChanged()
-
-            progressBar.visibility = View.GONE
+            adapter.notifyItemRangeInserted(startPosition, movies.size)
         })
 
         viewModel.showLoading().observe(this, Observer { showLoading ->

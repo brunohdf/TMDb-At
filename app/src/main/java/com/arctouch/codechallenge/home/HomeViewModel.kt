@@ -13,7 +13,7 @@ class HomeViewModel(private val repository: TMDbRepository) : ViewModel() {
 
     private var disposable: CompositeDisposable? = CompositeDisposable()
 
-    // the number of liveData attributes could be improved by using a ViewState pattern, it will be done if there is time left
+    // @Revisor: the number of liveData attributes could be improved by using a ViewState pattern, it will be done if there is time left
     // for now I will prioritize the main requirements
     private val upcomingMovies = MutableLiveData<List<Movie>>()
     private val showLoading = MutableLiveData<Boolean>()
@@ -21,10 +21,10 @@ class HomeViewModel(private val repository: TMDbRepository) : ViewModel() {
     fun upcomingMovies(): LiveData<List<Movie>> = upcomingMovies
     fun showLoading(): LiveData<Boolean> = showLoading
 
-    fun fetchUpcomingMovies() {
+    fun fetchUpcomingMovies(page: Int = 1) {
         showLoading.value = true
 
-        val disposable = repository.getUpcomingMovies()
+        val disposable = repository.getUpcomingMovies(page)
                 .subscribeWith(
                         object : ResourceObserver<List<Movie>>() {
 
