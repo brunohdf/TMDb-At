@@ -20,7 +20,7 @@ class HomeViewModel(private val repository: TMDbRepository) : ViewModel() {
     fun upcomingMovies(): LiveData<List<Movie>> = upcomingMovies
     fun showLoading(): LiveData<Boolean> = showLoading
 
-    fun fetchUpcomingMovies(page: Int = 1) {
+    fun fetchUpcomingMovies(page: Long = 1) {
         showLoading.value = true
 
         val disposable = repository.getUpcomingMovies(page)

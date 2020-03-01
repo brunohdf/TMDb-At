@@ -11,7 +11,7 @@ import io.reactivex.schedulers.Schedulers
 
 class TMDbRepository(private val api: TmdbApi, private val cache: Cache) {
 
-    fun getUpcomingMovies(page: Int = 1): Observable<List<Movie>> {
+    fun getUpcomingMovies(page: Long = 1): Observable<List<Movie>> {
 
         val movies = api.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, page, TmdbApi.DEFAULT_REGION)
                 .subscribeOn(Schedulers.io())
@@ -38,5 +38,11 @@ class TMDbRepository(private val api: TmdbApi, private val cache: Cache) {
                         it.genres
                     }
         } else Observable.just(cache.genres)
+    }
+
+    fun getDetails(id: Long): Observable<Movie> {
+        return api.movie(id, TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 }

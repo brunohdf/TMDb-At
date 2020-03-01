@@ -25,7 +25,6 @@ object TMDbFactory {
         return mutableListOf<Movie>().apply {
             for (i in 1..number) this.add(makeMovie())
         }
-
     }
 
     private fun makeMovie(): Movie {
@@ -34,7 +33,7 @@ object TMDbFactory {
         val genresIds = genres.map { it.id }
 
         return Movie(
-                randomInt(),
+                randomInt().toLong(),
                 randomString(),
                 randomString(),
                 genres,

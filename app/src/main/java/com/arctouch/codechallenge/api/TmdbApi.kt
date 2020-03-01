@@ -27,7 +27,7 @@ interface TmdbApi {
     fun upcomingMovies(
             @Query("api_key") apiKey: String,
             @Query("language") language: String,
-            @Query("page") page: Int,
+            @Query("page") page: Long,
             // @Revisor the region attr was renamed just for return more items to allow pagination, i will keep it purposely
             @Query("xregion") region: String
     ): Observable<UpcomingMoviesResponse>
