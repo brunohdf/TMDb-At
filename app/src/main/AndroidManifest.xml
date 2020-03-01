@@ -18,7 +18,7 @@
 
         <activity
             android:name=".detail.DetailActivity"
-            android:label="Detalhes" />
+            android:label="Movie details" />
 
         <activity android:name=".home.HomeActivity">
             <intent-filter>

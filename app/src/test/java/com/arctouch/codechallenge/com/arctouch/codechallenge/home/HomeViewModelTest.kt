@@ -16,8 +16,8 @@ import org.junit.Test
 
 class HomeViewModelTest {
 
-    lateinit var repository: TMDbRepository
-    lateinit var viewModel: HomeViewModel
+    private lateinit var repository: TMDbRepository
+    private lateinit var viewModel: HomeViewModel
 
     @get:Rule
     val rule = InstantTaskExecutorRule()

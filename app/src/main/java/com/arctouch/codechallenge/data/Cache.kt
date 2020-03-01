@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.arctouch.codechallenge.data
 
 import com.arctouch.codechallenge.model.Genre

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Code Challenge</string>
-    <string name="movie_and_genres">%s - %s</string>
     <plurals name="genres">
         <item quantity="one">Genre: %s</item>
         <item quantity="other">Genres: %s</item>

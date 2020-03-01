@@ -29,7 +29,7 @@
             android:layout_height="0dp"
             android:scaleType="fitXY"
             android:src="@drawable/ic_image_placeholder"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintBottom_toTopOf="@+id/horizontalGuideline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -37,18 +37,6 @@
 
         <!-- @Revisor: I didn't use a container to group title and releaseDate just because I tried to have a layout as flat as possible.
              But that would be good too, maybe saving some margin control.. -->
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/posterImage"
-            android:layout_width="90dp"
-            android:layout_height="110dp"
-            android:layout_margin="@dimen/defaultSpace"
-            android:background="@color/transparentWhite"
-            android:padding="2dp"
-            android:src="@drawable/ic_image_placeholder"
-            app:layout_constraintBottom_toBottomOf="@+id/releaseDate"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:src="@tools:sample/avatars" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/title"
@@ -62,7 +50,7 @@
             android:textSize="@dimen/largeText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/horizontalGuideline"
             tools:text="A really nice title" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -79,6 +67,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title"
             tools:text="10-10-2020" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/posterImage"
+            android:layout_width="90dp"
+            android:layout_height="110dp"
+            android:layout_margin="@dimen/defaultSpace"
+            android:background="@color/transparentWhite"
+            android:padding="2dp"
+            android:src="@drawable/ic_image_placeholder"
+            app:layout_constraintBottom_toBottomOf="@+id/releaseDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:src="@tools:sample/avatars" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/overviewLabel"
@@ -119,11 +119,11 @@
             tools:text="Genres: action, drama" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
+            android:id="@+id/horizontalGuideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.3" />
+            app:layout_constraintGuide_percent="0.4" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

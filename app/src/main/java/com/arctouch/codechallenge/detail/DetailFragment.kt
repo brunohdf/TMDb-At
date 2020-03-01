@@ -20,7 +20,7 @@ import java.util.*
 
 class DetailFragment : Fragment() {
 
-    var movieId: Long = 0
+    private var movieId: Long = 0
 
     private val movieImageUrlBuilder = MovieImageUrlBuilder()
 
