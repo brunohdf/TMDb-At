@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="tinySpace">8dp</dimen>
+    <dimen name="defaultSpace">16dp</dimen>
+    <dimen name="largeText">24sp</dimen>
+    <dimen name="smallText">12sp</dimen>
+    <dimen name="captionText">16sp</dimen>
+    <dimen name="bottomSpace">20dp</dimen>
+</resources>
